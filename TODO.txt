@@ -1,0 +1,10 @@
+- Finish base png game
+- Add game rule system
+- Add multiple game modes
+- Add sound
+- Add changing backgrounds
+- Add score transitions
+- Add camera filters
+- A win animations
+
+
