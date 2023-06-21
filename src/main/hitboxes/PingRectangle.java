@@ -2,9 +2,9 @@ package main.hitboxes;
 
 public class PingRectangle {
 
-    public int x, y, width, height;
+    public double x, y, width, height;
 
-    public PingRectangle(int x1, int y1, int width1, int height1) {
+    public PingRectangle(double x1, double y1, double width1, double height1) {
         x = x1;
         y = y1;
         width = width1;
