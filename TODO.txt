@@ -1,4 +1,4 @@
-- Finish base png game
+
 - Add game rule system
 - Add multiple game modes
 - Add sound

@@ -2,19 +2,47 @@ package main;
 
 import main.hitboxes.PingRectangle;
 
+import static main.GamePanel.keyH;
+
 public class Player {
 
     private PingRectangle hitboxRect;
 
+    private int pnumber;
+
+    private int score;
+
     private double dx, dy;
 
-    public Player(double x, double y, double width, double height) {
+    public Player(double x, double y, double width, double height, int pnumber) {
         hitboxRect = new PingRectangle(x, y, width, height);
         dx = 0;
         dy = 0;
+        this.pnumber = pnumber;
+        score = 0;
     }
 
     public void update() {
+
+        double playerdy = 0.0;
+        if (pnumber == 1) {
+            if (keyH.p1UpPressed) {
+                playerdy -= 6.0;
+            }
+            if (keyH.p1DownPressed) {
+                playerdy += 6.0;
+            }
+        } else {
+            if (keyH.p2UpPressed) {
+                playerdy -= 6.0;
+            }
+            if (keyH.p2DownPressed) {
+                playerdy += 6.0;
+            }
+        }
+
+        dy = playerdy;
+
         hitboxRect.x += dx;
         hitboxRect.y += dy;
     }
@@ -44,6 +72,10 @@ public class Player {
         return hitboxRect.height;
     }
 
+    public int getScore() {
+        return score;
+    }
+
     public void setX(int i) {
         hitboxRect.x = i;
     }
@@ -67,5 +99,9 @@ public class Player {
 
     public void setHitboxRect(PingRectangle hitboxRect) {
         this.hitboxRect = hitboxRect;
+    }
+
+    public void increaseScore() {
+        score++;
     }
 }

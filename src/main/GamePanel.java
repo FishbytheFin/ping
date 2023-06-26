@@ -10,7 +10,7 @@ public class GamePanel extends JPanel implements Runnable {
 
     static final double FPS = 60;
     Thread gameThread;
-    KeyHandler keyH = new KeyHandler();
+    public static KeyHandler keyH = new KeyHandler();
 
     public GamePanel() {
         this.setPreferredSize(new Dimension(SCREEN_WIDTH, SCREEN_HEIGHT));
@@ -25,16 +25,10 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void update() {
-        double playerdy = 0.0;
-        if (keyH.p1UpPressed) {
-            playerdy -= 6.0;
-        }
-        if (keyH.p1DownPressed) {
-            playerdy += 6.0;
-        }
-        PingGame.player1.setDy(playerdy);
-
         PingGame.player1.update();
+        PingGame.player2.update();
+
+        PingGame.ball.update();
     }
 
     public void moveBall() {
@@ -47,6 +41,10 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g;
         g2.setColor(Color.WHITE);
         g2.fillRect((int)PingGame.player1.getX(), (int)PingGame.player1.getY(), (int)PingGame.player1.getWidth(), (int)PingGame.player1.getHeight());
+        g2.fillRect((int)PingGame.player2.getX(), (int)PingGame.player2.getY(), (int)PingGame.player2.getWidth(), (int)PingGame.player2.getHeight());
+        g2.fillRect((int)PingGame.ball.getX(), (int)PingGame.ball.getY(), (int)PingGame.ball.getWidth(), (int)PingGame.ball.getHeight());
+        g2.drawString(String.valueOf(PingGame.player1.getScore()), (SCREEN_WIDTH / 2) - 100, 40);
+        g2.drawString(String.valueOf(PingGame.player2.getScore()), (SCREEN_WIDTH / 2) + 100, 40);
         g2.dispose();
     }
 

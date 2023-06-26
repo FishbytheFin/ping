@@ -1,5 +1,7 @@
 package main;
 
+import main.hitboxes.PingRectangle;
+
 import java.util.HashMap;
 
 public class CollisionManager {
@@ -10,11 +12,11 @@ public class CollisionManager {
     }
 
     //Given 2 rectangles, return whether they overlap
-    public static boolean rectOnRect(HashMap<String, Integer> rect1, HashMap<String, Integer> rect2) {
-        return rect1.get("x") < rect2.get("x") + rect2.get("width") &&
-                rect1.get("x") + rect1.get("width") > rect2.get("x") &&
-                rect1.get("y") < rect2.get("y") + rect2.get("height") &&
-                rect1.get("height") + rect1.get("y") > rect2.get("y");
+    public static boolean rectOnRect(PingRectangle rect1, PingRectangle rect2) {
+        return rect1.x < rect2.x + rect2.width &&
+                rect1.x + rect1.width > rect2.x &&
+                rect1.y < rect2.y + rect2.height &&
+                rect1.height + rect1.y > rect2.y;
     }
 
     //Given a circle and a point, return whether they overlap
