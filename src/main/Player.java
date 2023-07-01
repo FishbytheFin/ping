@@ -2,6 +2,8 @@ package main;
 
 import main.hitboxes.PingRectangle;
 
+import java.util.concurrent.ThreadLocalRandom;
+
 import static main.GamePanel.keyH;
 
 public class Player {
@@ -14,6 +16,8 @@ public class Player {
 
     private double dx, dy;
 
+    private PlayerRules playerRule;
+
     public Player(double x, double y, double width, double height, int pnumber) {
         hitboxRect = new PingRectangle(x, y, width, height);
         dx = 0;
@@ -21,6 +25,24 @@ public class Player {
         this.pnumber = pnumber;
         score = 0;
     }
+
+    public void reset() {
+    }
+
+    public void changeRules() {
+        //Player can only have one player rule as they are all exclusive and change how the controls work
+        //Modifiers will not be exclusive
+        //Game rules will be chosen first to determine interference with any other rules
+        //Game rules will be chosen in Pinggame
+        //int numberOfPlayerRules = ThreadLocalRandom.current().nextInt(0, 4 + 1);
+
+        playerRule = PlayerRules.values()[ThreadLocalRandom.current().nextInt(0, PlayerRules.values().length)];
+
+        if (!playerRule.equals(PlayerRules.SPINNING)) {
+            hitboxRect.angle = 0;
+        }
+    }
+
 
     public void update() {
 
@@ -45,6 +67,10 @@ public class Player {
 
         hitboxRect.x += dx;
         hitboxRect.y += dy;
+
+        if (playerRule.equals(PlayerRules.SPINNING)) {
+            hitboxRect.angle += Math.PI / 30;
+        }
     }
 
     public PingRectangle getHitboxRect() {
@@ -74,6 +100,10 @@ public class Player {
 
     public int getScore() {
         return score;
+    }
+
+    public PlayerRules getPlayerRule() {
+        return playerRule;
     }
 
     public void setX(int i) {

@@ -21,7 +21,8 @@ public class GamePanel extends JPanel implements Runnable {
     }
 
     public void init() {
-
+        PingGame.player1.changeRules();
+        PingGame.player2.changeRules();
     }
 
     public void update() {
@@ -29,20 +30,45 @@ public class GamePanel extends JPanel implements Runnable {
         PingGame.player2.update();
 
         PingGame.ball.update();
-    }
-
-    public void moveBall() {
-
+        if (PingGame.ball.getHitbox().x < -PingGame.ball.getHitbox().width) {
+            PingGame.player2.increaseScore();
+            PingGame.ball.reset();
+            PingGame.player1.changeRules();
+            PingGame.player2.changeRules();
+        } else if (PingGame.ball.getHitbox().x > 1080) {
+            PingGame.player1.increaseScore();
+            PingGame.ball.reset();
+            PingGame.player1.changeRules();
+            PingGame.player2.changeRules();
+        }
     }
 
 
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        Graphics2D g2 = (Graphics2D) g;
+        Graphics2D g2 = (Graphics2D) g.create();
         g2.setColor(Color.WHITE);
+
+        //UPDATE FILL RECT CUZ IT WILL DRAW ROTATED RECTS FROM CENTER
+        //Draw p1
+        g2.rotate(PingGame.player1.getHitboxRect().angle, (int)(PingGame.player1.getX() + PingGame.player1.getHitboxRect().width / 2), (int)PingGame.player1.getY() + PingGame.player1.getHitboxRect().height / 2);
         g2.fillRect((int)PingGame.player1.getX(), (int)PingGame.player1.getY(), (int)PingGame.player1.getWidth(), (int)PingGame.player1.getHeight());
+        g2.dispose();
+
+        g2 = (Graphics2D) g.create();
+        g2.setColor(Color.WHITE);
+
+        //Draw p2
+        g2.rotate(PingGame.player2.getHitboxRect().angle, (int)(PingGame.player2.getX() + PingGame.player2.getHitboxRect().width / 2), (int)PingGame.player2.getY() + PingGame.player2.getHitboxRect().height / 2);
         g2.fillRect((int)PingGame.player2.getX(), (int)PingGame.player2.getY(), (int)PingGame.player2.getWidth(), (int)PingGame.player2.getHeight());
+        g2.dispose();
+
+        g2 = (Graphics2D) g.create();
+        g2.setColor(Color.WHITE);
+
+        //Draw ball
         g2.fillRect((int)PingGame.ball.getX(), (int)PingGame.ball.getY(), (int)PingGame.ball.getWidth(), (int)PingGame.ball.getHeight());
+
         g2.drawString(String.valueOf(PingGame.player1.getScore()), (SCREEN_WIDTH / 2) - 100, 40);
         g2.drawString(String.valueOf(PingGame.player2.getScore()), (SCREEN_WIDTH / 2) + 100, 40);
         g2.dispose();
@@ -64,6 +90,8 @@ public class GamePanel extends JPanel implements Runnable {
         double delta = 0;
         long lastTime = System.nanoTime();
         long currentTime;
+
+        init();
 
         while (gameThread != null) {
 

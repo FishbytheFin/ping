@@ -24,27 +24,33 @@ public class Ball {
         hitbox.x += dx;
         hitbox.y += dy;
 
-        if (hitbox.x < -hitbox.width) {
-            PingGame.player2.increaseScore();
-            reset();
-        } else if (hitbox.x > 1080) {
-            PingGame.player1.increaseScore();
-            reset();
-        }
-
         if (hitbox.y <= 0 || hitbox.y >= 720 - hitbox.width) {
             dy *= -1;
         }
 
+        if (!PingGame.player1.getPlayerRule().equals(PlayerRules.SPINNING)) {
+            if (CollisionManager.rectOnRect(PingGame.player1.getHitboxRect(), hitbox)) {
+                dx *= -1;
+                hitbox.x = PingGame.player1.getX() + PingGame.player1.getWidth();
 
-        if (CollisionManager.rectOnRect(PingGame.player1.getHitboxRect(), hitbox)) {
-            dx *= -1;
-            hitbox.x = PingGame.player1.getX() + PingGame.player1.getWidth();
-
-        } else if (CollisionManager.rectOnRect(PingGame.player2.getHitboxRect(), hitbox)) {
-            dx *= -1;
-            hitbox.x = PingGame.player2.getX() - getWidth();
+            }
+        } else {
+            if (hitbox.intersects(PingGame.player1.getHitboxRect())) {
+                dx *= -1;
+            }
         }
+
+        if (!PingGame.player1.getPlayerRule().equals(PlayerRules.SPINNING)) {
+            if (CollisionManager.rectOnRect(PingGame.player2.getHitboxRect(), hitbox)) {
+                dx *= -1;
+                hitbox.x = PingGame.player2.getX() - getWidth();
+            }
+        } else {
+            if (hitbox.intersects(PingGame.player2.getHitboxRect())) {
+                dx *= -1;
+            }
+        }
+
     }
 
     public void reset() {
@@ -67,14 +73,21 @@ public class Ball {
     public double getX() {
         return hitbox.x;
     }
+
     public double getY() {
         return hitbox.y;
     }
+
     public double getWidth() {
         return hitbox.width;
     }
+
     public double getHeight() {
         return hitbox.height;
+    }
+
+    public PingRectangle getHitbox() {
+        return hitbox;
     }
 
     public void speedUp() {
