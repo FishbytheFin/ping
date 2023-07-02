@@ -36,18 +36,22 @@ public class Ball {
             }
         } else {
             if (hitbox.intersects(PingGame.player1.getHitboxRect())) {
-                dx *= -1;
+                angle = PingGame.player1.getHitboxRect().angle + Math.PI / 2;
+                dx = speed * Math.cos(angle);
+                dy = speed * Math.sin(angle);
             }
         }
 
-        if (!PingGame.player1.getPlayerRule().equals(PlayerRules.SPINNING)) {
+        if (!PingGame.player2.getPlayerRule().equals(PlayerRules.SPINNING)) {
             if (CollisionManager.rectOnRect(PingGame.player2.getHitboxRect(), hitbox)) {
                 dx *= -1;
                 hitbox.x = PingGame.player2.getX() - getWidth();
             }
         } else {
             if (hitbox.intersects(PingGame.player2.getHitboxRect())) {
-                dx *= -1;
+                angle = PingGame.player2.getHitboxRect().angle + Math.PI / 2;
+                dx = speed * Math.cos(angle);
+                dy = speed * Math.sin(angle);
             }
         }
 
@@ -91,7 +95,7 @@ public class Ball {
     }
 
     public void speedUp() {
-        speed += 1;
+        speed += 0.2;
     }
 
 }

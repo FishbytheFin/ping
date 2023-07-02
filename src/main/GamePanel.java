@@ -49,7 +49,7 @@ public class GamePanel extends JPanel implements Runnable {
         Graphics2D g2 = (Graphics2D) g.create();
         g2.setColor(Color.WHITE);
 
-        //UPDATE FILL RECT CUZ IT WILL DRAW ROTATED RECTS FROM CENTER
+
         //Draw p1
         g2.rotate(PingGame.player1.getHitboxRect().angle, (int)(PingGame.player1.getX() + PingGame.player1.getHitboxRect().width / 2), (int)PingGame.player1.getY() + PingGame.player1.getHitboxRect().height / 2);
         g2.fillRect((int)PingGame.player1.getX(), (int)PingGame.player1.getY(), (int)PingGame.player1.getWidth(), (int)PingGame.player1.getHeight());
