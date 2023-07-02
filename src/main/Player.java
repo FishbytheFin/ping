@@ -9,7 +9,7 @@ import static main.GamePanel.keyH;
 
 public class Player {
 
-    private PingRectangle hitboxRect;
+    private ArrayList<PingRectangle> hitboxRect;
 
     private int pnumber;
 
@@ -20,7 +20,8 @@ public class Player {
     private ArrayList<PlayerRules> playerRules;
 
     public Player(double x, double y, double width, double height, int pnumber) {
-        hitboxRect = new PingRectangle(x, y, width, height);
+        hitboxRect = new ArrayList<>();
+        hitboxRect.add(new PingRectangle(x, y, width, height));
         dx = 0;
         dy = 0;
         this.pnumber = pnumber;
@@ -55,9 +56,26 @@ public class Player {
 
         playerRules = tempPr;
 
+        //Split player paddle
+        if (playerRules.contains(PlayerRules.SPLIT_PADDLE)) {
+            if (hitboxRect.size() == 1) {
+                hitboxRect.get(0).setHeight(hitboxRect.get(0).getHeight() / 2);
+
+                PingRectangle cloneRect = new PingRectangle(hitboxRect.get(0).x, hitboxRect.get(0).y, hitboxRect.get(0).width, hitboxRect.get(0).height);
+                cloneRect.y = GamePanel.SCREEN_HEIGHT / 2.0 + (GamePanel.SCREEN_HEIGHT / 2.0 - hitboxRect.get(0).y - hitboxRect.get(0).height);
+                hitboxRect.add(1, cloneRect);
+            }
+        } else if (hitboxRect.size() > 1) {
+            hitboxRect.remove(1);
+            hitboxRect.get(0).height = hitboxRect.get(0).height * 2;
+        }
+
         //Reset player angle
         if (!playerRules.contains(PlayerRules.SPINNING)) {
-            hitboxRect.angle = 0;
+            for (PingRectangle ph:
+                 hitboxRect) {
+                ph.angle = 0;
+            }
         }
     }
 
@@ -83,15 +101,27 @@ public class Player {
 
         dy = playerdy;
 
-        hitboxRect.x += dx;
-        hitboxRect.y += dy;
+        hitboxRect.get(0).x += dx;
+        hitboxRect.get(0).y += dy;
+
+        if (playerRules.contains(PlayerRules.SPLIT_PADDLE)) {
+            //626
+            hitboxRect.get(1).x += dx;
+            hitboxRect.get(1).setY(hitboxRect.get(1).getY() - dy);
+        }
 
         if (playerRules.contains(PlayerRules.SPINNING)) {
-            hitboxRect.angle += Math.PI / 30;
+
+            for (PingRectangle pr:
+                    hitboxRect) {
+                pr.angle += Math.PI / 30;
+            }
+
+            //hitboxRect.angle += Math.PI / 30;
         }
     }
 
-    public PingRectangle getHitboxRect() {
+    public ArrayList<PingRectangle> getHitboxRect() {
         return hitboxRect;
     }
 
@@ -104,16 +134,16 @@ public class Player {
     }
 
     public double getX() {
-        return hitboxRect.x;
+        return hitboxRect.get(0).x;
     }
     public double getY() {
-        return hitboxRect.y;
+        return hitboxRect.get(0).y;
     }
     public double getWidth() {
-        return hitboxRect.width;
+        return hitboxRect.get(0).width;
     }
     public double getHeight() {
-        return hitboxRect.height;
+        return hitboxRect.get(0).height;
     }
 
     public int getScore() {
@@ -125,16 +155,16 @@ public class Player {
     }
 
     public void setX(int i) {
-        hitboxRect.x = i;
+        hitboxRect.get(0).x = i;
     }
     public void setY(int i) {
-        hitboxRect.y = i;
+        hitboxRect.get(0).y = i;
     }
     public void setWidth(int i) {
-        hitboxRect.width = i;
+        hitboxRect.get(0).width = i;
     }
     public void setHeight(int i) {
-        hitboxRect.height = i;
+        hitboxRect.get(0).height = i;
     }
 
     public void setDx(double dx) {
@@ -145,9 +175,9 @@ public class Player {
         this.dy = dy;
     }
 
-    public void setHitboxRect(PingRectangle hitboxRect) {
-        this.hitboxRect = hitboxRect;
-    }
+//    public void setHitboxRect(PingRectangle hitboxRect) {
+//        this.hitboxRect = hitboxRect;
+//    }
 
     public void increaseScore() {
         score++;

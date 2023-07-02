@@ -1,5 +1,7 @@
 package main;
 
+import main.hitboxes.PingRectangle;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -51,20 +53,27 @@ public class GamePanel extends JPanel implements Runnable {
 
 
         //Draw p1
-        g2.rotate(PingGame.player1.getHitboxRect().angle, (int)(PingGame.player1.getX() + PingGame.player1.getHitboxRect().width / 2), (int)PingGame.player1.getY() + PingGame.player1.getHitboxRect().height / 2);
-        g2.fillRect((int)PingGame.player1.getX(), (int)PingGame.player1.getY(), (int)PingGame.player1.getWidth(), (int)PingGame.player1.getHeight());
-        g2.dispose();
+        for (PingRectangle pr:
+             PingGame.player1.getHitboxRect()) {
+            g2.rotate(pr.angle, (int)(pr.x + pr.width / 2), (int)pr.y + pr.height / 2);
+            g2.fillRect((int)pr.x, (int)pr.y, (int)pr.width, (int)pr.height);
+            g2.dispose();
 
-        g2 = (Graphics2D) g.create();
-        g2.setColor(Color.WHITE);
+            g2 = (Graphics2D) g.create();
+            g2.setColor(Color.WHITE);
+        }
+
 
         //Draw p2
-        g2.rotate(PingGame.player2.getHitboxRect().angle, (int)(PingGame.player2.getX() + PingGame.player2.getHitboxRect().width / 2), (int)PingGame.player2.getY() + PingGame.player2.getHitboxRect().height / 2);
-        g2.fillRect((int)PingGame.player2.getX(), (int)PingGame.player2.getY(), (int)PingGame.player2.getWidth(), (int)PingGame.player2.getHeight());
-        g2.dispose();
+        for (PingRectangle pr:
+                PingGame.player2.getHitboxRect()) {
+            g2.rotate(pr.angle, (int)(pr.x + pr.width / 2), (int)pr.y + pr.height / 2);
+            g2.fillRect((int)pr.x, (int)pr.y, (int)pr.width, (int)pr.height);
+            g2.dispose();
 
-        g2 = (Graphics2D) g.create();
-        g2.setColor(Color.WHITE);
+            g2 = (Graphics2D) g.create();
+            g2.setColor(Color.WHITE);
+        }
 
         //Draw ball
         g2.fillRect((int)PingGame.ball.getX(), (int)PingGame.ball.getY(), (int)PingGame.ball.getWidth(), (int)PingGame.ball.getHeight());

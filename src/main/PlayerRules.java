@@ -5,5 +5,6 @@ public enum PlayerRules {
     SPINNING,
     SPLIT_PADDLE,
     INVERT_CONTROLS,
-    HIPPO_TEETH
+    HIPPO_TEETH,
+    HORIZONTAL_MOVEMENT
 }
