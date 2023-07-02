@@ -2,6 +2,7 @@ package main;
 
 import main.hitboxes.PingRectangle;
 
+import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
 import static main.GamePanel.keyH;
@@ -16,7 +17,7 @@ public class Player {
 
     private double dx, dy;
 
-    private PlayerRules playerRule;
+    private ArrayList<PlayerRules> playerRules;
 
     public Player(double x, double y, double width, double height, int pnumber) {
         hitboxRect = new PingRectangle(x, y, width, height);
@@ -30,15 +31,32 @@ public class Player {
     }
 
     public void changeRules() {
-        //Player can only have one player rule as they are all exclusive and change how the controls work
         //Modifiers will not be exclusive
         //Game rules will be chosen first to determine interference with any other rules
         //Game rules will be chosen in Pinggame
-        //int numberOfPlayerRules = ThreadLocalRandom.current().nextInt(0, 4 + 1);
 
-        playerRule = PlayerRules.values()[ThreadLocalRandom.current().nextInt(0, PlayerRules.values().length)];
 
-        if (!playerRule.equals(PlayerRules.SPINNING)) {
+        //Add player rules
+        playerRules = new ArrayList<>();
+        do {
+            playerRules.add(PlayerRules.values()[ThreadLocalRandom.current().nextInt(0, PlayerRules.values().length)]);
+        } while (ThreadLocalRandom.current().nextInt(0, 2) == 0);
+
+
+        //Remove duplicates
+        ArrayList<PlayerRules> tempPr = new ArrayList<>();
+
+        for (PlayerRules pr:
+             playerRules) {
+            if(!tempPr.contains(pr)) {
+                tempPr.add(pr);
+            }
+        }
+
+        playerRules = tempPr;
+
+        //Reset player angle
+        if (!playerRules.contains(PlayerRules.SPINNING)) {
             hitboxRect.angle = 0;
         }
     }
@@ -68,7 +86,7 @@ public class Player {
         hitboxRect.x += dx;
         hitboxRect.y += dy;
 
-        if (playerRule.equals(PlayerRules.SPINNING)) {
+        if (playerRules.contains(PlayerRules.SPINNING)) {
             hitboxRect.angle += Math.PI / 30;
         }
     }
@@ -102,8 +120,8 @@ public class Player {
         return score;
     }
 
-    public PlayerRules getPlayerRule() {
-        return playerRule;
+    public ArrayList<PlayerRules> getPlayerRules() {
+        return playerRules;
     }
 
     public void setX(int i) {

@@ -3,5 +3,7 @@ package main;
 public enum PlayerRules {
     NONE,
     SPINNING,
-    SPLIT_PADDLE
+    SPLIT_PADDLE,
+    INVERT_CONTROLS,
+    HIPPO_TEETH
 }

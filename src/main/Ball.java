@@ -28,7 +28,7 @@ public class Ball {
             dy *= -1;
         }
 
-        if (!PingGame.player1.getPlayerRule().equals(PlayerRules.SPINNING)) {
+        if (!PingGame.player1.getPlayerRules().contains(PlayerRules.SPINNING)) {
             if (CollisionManager.rectOnRect(PingGame.player1.getHitboxRect(), hitbox)) {
                 dx *= -1;
                 hitbox.x = PingGame.player1.getX() + PingGame.player1.getWidth();
@@ -42,7 +42,7 @@ public class Ball {
             }
         }
 
-        if (!PingGame.player2.getPlayerRule().equals(PlayerRules.SPINNING)) {
+        if (!PingGame.player2.getPlayerRules().contains(PlayerRules.SPINNING)) {
             if (CollisionManager.rectOnRect(PingGame.player2.getHitboxRect(), hitbox)) {
                 dx *= -1;
                 hitbox.x = PingGame.player2.getX() - getWidth();

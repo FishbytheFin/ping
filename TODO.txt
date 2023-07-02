@@ -1,5 +1,9 @@
+- Add countdown
+- Fix score counter
+- Display player rules
 
-- Add game rule system
+- Add more player rules
+- Add game rules
 - Add multiple game modes
 - Add sound
 - Add changing backgrounds
