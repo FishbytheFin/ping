@@ -1,7 +1,6 @@
 - Add countdown
 - Fix score counter
 - Display player rules
-
 - Add more player rules
 - Add game rules
 - Add multiple game modes
@@ -10,5 +9,3 @@
 - Add score transitions
 - Add camera filters
 - A win animations
-
-

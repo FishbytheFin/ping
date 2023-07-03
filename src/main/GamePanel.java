@@ -25,6 +25,7 @@ public class GamePanel extends JPanel implements Runnable {
     public void init() {
         PingGame.player1.changeRules();
         PingGame.player2.changeRules();
+        PingGame.ball.changeRules();
     }
 
     public void update() {
@@ -32,16 +33,20 @@ public class GamePanel extends JPanel implements Runnable {
         PingGame.player2.update();
 
         PingGame.ball.update();
+
+        //Player scores
         if (PingGame.ball.getHitbox().x < -PingGame.ball.getHitbox().width) {
             PingGame.player2.increaseScore();
             PingGame.ball.reset();
             PingGame.player1.changeRules();
             PingGame.player2.changeRules();
+            PingGame.ball.changeRules();
         } else if (PingGame.ball.getHitbox().x > 1080) {
             PingGame.player1.increaseScore();
             PingGame.ball.reset();
             PingGame.player1.changeRules();
             PingGame.player2.changeRules();
+            PingGame.ball.changeRules();
         }
     }
 
@@ -49,9 +54,10 @@ public class GamePanel extends JPanel implements Runnable {
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g.create();
-        g2.setColor(Color.WHITE);
+        //g2.setColor(Color.WHITE);
 
 
+        g2.setColor(PingGame.player1.getColor());
         //Draw p1
         for (PingRectangle pr:
              PingGame.player1.getHitboxRect()) {
@@ -60,10 +66,11 @@ public class GamePanel extends JPanel implements Runnable {
             g2.dispose();
 
             g2 = (Graphics2D) g.create();
-            g2.setColor(Color.WHITE);
+            g2.setColor(PingGame.player1.getColor());
         }
 
 
+        g2.setColor(PingGame.player2.getColor());
         //Draw p2
         for (PingRectangle pr:
                 PingGame.player2.getHitboxRect()) {
@@ -72,9 +79,10 @@ public class GamePanel extends JPanel implements Runnable {
             g2.dispose();
 
             g2 = (Graphics2D) g.create();
-            g2.setColor(Color.WHITE);
+            g2.setColor(PingGame.player2.getColor());
         }
 
+        g2.setColor(PingGame.ball.getColor());
         //Draw ball
         g2.fillRect((int)PingGame.ball.getX(), (int)PingGame.ball.getY(), (int)PingGame.ball.getWidth(), (int)PingGame.ball.getHeight());
 

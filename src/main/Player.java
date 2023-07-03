@@ -2,6 +2,7 @@ package main;
 
 import main.hitboxes.PingRectangle;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -19,6 +20,8 @@ public class Player {
 
     private ArrayList<PlayerRules> playerRules;
 
+    private Color playerColor;
+
     public Player(double x, double y, double width, double height, int pnumber) {
         hitboxRect = new ArrayList<>();
         hitboxRect.add(new PingRectangle(x, y, width, height));
@@ -26,6 +29,7 @@ public class Player {
         dy = 0;
         this.pnumber = pnumber;
         score = 0;
+        playerColor = Color.WHITE;
     }
 
     public void reset() {
@@ -146,6 +150,10 @@ public class Player {
         return hitboxRect.get(0).height;
     }
 
+    public Color getColor() {
+        return playerColor;
+    }
+
     public int getScore() {
         return score;
     }
@@ -175,7 +183,11 @@ public class Player {
         this.dy = dy;
     }
 
-//    public void setHitboxRect(PingRectangle hitboxRect) {
+    public void setColor(Color playerColor) {
+        this.playerColor = playerColor;
+    }
+
+    //    public void setHitboxRect(PingRectangle hitboxRect) {
 //        this.hitboxRect = hitboxRect;
 //    }
 
