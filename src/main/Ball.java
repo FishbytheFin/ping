@@ -129,6 +129,25 @@ public class Ball {
             colorFrames = 15;
         }
 
+        hitbox.width = 50;
+        hitbox.height = 50;
+
+        if (ballRules.contains(BallRules.BIG)) {
+            hitbox.width *= 1.5;
+            hitbox.height *= 1.5;
+        }
+        if (ballRules.contains(BallRules.SMALL)) {
+            hitbox.width *= 0.75;
+            hitbox.width *= 0.75;
+        }
+        if (ballRules.contains(BallRules.OVAL)) {
+            if (ThreadLocalRandom.current().nextInt(0, 2) == 1) {
+                hitbox.width *= 1.5;
+            } else {
+                hitbox.height *= 1.5;
+            }
+        }
+
         //System.out.println(ballRules);
 
     }
