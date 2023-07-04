@@ -7,5 +7,6 @@ public enum BallRules {
     OVAL,
     BIG,
     SMALL,
-    KNUCKLE_BALL
+    KNUCKLE_BALL,
+    SUPER_BALL
 }

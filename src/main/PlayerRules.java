@@ -7,5 +7,6 @@ public enum PlayerRules {
     INVERT_CONTROLS,
     HIPPO_TEETH,
     HORIZONTAL_MOVEMENT,
-    FORCE_FIELD
+    FORCE_FIELD,
+    MAGNET
 }

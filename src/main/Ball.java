@@ -14,6 +14,7 @@ public class Ball {
     private double dy, dx;
     private double angle;
     private double speed;
+    private double tempSpeed;
     private int colorFrames;
     private Color ballColor;
 
@@ -22,6 +23,7 @@ public class Ball {
         dy = dx = 0;
         angle = 0;
         speed = 14;
+        tempSpeed = speed;
         ballColor = Color.white;
         reset();
     }
@@ -33,9 +35,16 @@ public class Ball {
         if (hitbox.y <= 0) {
             hitbox.y = 0;
             dy *= -1;
-        } else if (hitbox.y >= 720 - hitbox.width) {
-            hitbox.y = 720 - hitbox.width;
+            if (ballRules.contains(BallRules.SUPER_BALL)) {
+                speedUp();
+
+            }
+        } else if (hitbox.y >= 720 - hitbox.height) {
+            hitbox.y = 720 - hitbox.height;
             dy *= -1;
+            if (ballRules.contains(BallRules.SUPER_BALL)) {
+                speedUp();
+            }
         }
 
         //Rainbow Ball
@@ -54,9 +63,13 @@ public class Ball {
             if (!PingGame.player1.getPlayerRules().contains(PlayerRules.SPINNING)) {
                 if (CollisionManager.rectOnRect(pr, hitbox)) {
                     dx *= -1;
-                    hitbox.x = pr.x + pr.width;
+                    hitbox.x = pr.x + pr.width + 1;
                     if (ballRules.contains(BallRules.RAINBOW)) {
                         PingGame.player1.setColor(ballColor);
+                    }
+                    if (ballRules.contains(BallRules.SUPER_BALL)) {
+                        speedUp();
+
                     }
                 }
             } else {
@@ -66,6 +79,9 @@ public class Ball {
                     dy = speed * Math.sin(angle);
                     if (ballRules.contains(BallRules.RAINBOW)) {
                         PingGame.player1.setColor(ballColor);
+                    }
+                    if (ballRules.contains(BallRules.SUPER_BALL)) {
+                        speedUp();
                     }
                 }
             }
@@ -77,9 +93,13 @@ public class Ball {
             if (!PingGame.player2.getPlayerRules().contains(PlayerRules.SPINNING)) {
                 if (CollisionManager.rectOnRect(pr, hitbox)) {
                     dx *= -1;
-                    hitbox.x = pr.x - getWidth();
+                    hitbox.x = pr.x - getWidth() - 1;
                     if (ballRules.contains(BallRules.RAINBOW)) {
                         PingGame.player2.setColor(ballColor);
+                    }
+                    if (ballRules.contains(BallRules.SUPER_BALL)) {
+                        speedUp();
+
                     }
                 }
             } else {
@@ -89,6 +109,9 @@ public class Ball {
                     dy = speed * Math.sin(angle);
                     if (ballRules.contains(BallRules.RAINBOW)) {
                         PingGame.player2.setColor(ballColor);
+                    }
+                    if (ballRules.contains(BallRules.SUPER_BALL)) {
+                        speedUp();
                     }
                 }
             }
@@ -147,6 +170,9 @@ public class Ball {
                 hitbox.height *= 1.5;
             }
         }
+        tempSpeed = speed;
+
+        System.out.println(ballRules.contains(BallRules.SUPER_BALL));
 
         //System.out.println(ballRules);
 
@@ -155,7 +181,11 @@ public class Ball {
     public void reset() {
         hitbox.x = GamePanel.SCREEN_WIDTH / 2.0 - (hitbox.width / 2);
         hitbox.y = GamePanel.SCREEN_HEIGHT / 2.0 - (hitbox.height / 2);
+
+
+        speed = tempSpeed;
         speedUp();
+
         Random random = new Random();
         if (random.nextDouble() > 0.5) {
             angle = random.nextDouble() * 0.333 * Math.PI - (0.1666 * Math.PI);
